@@ -11,5 +11,25 @@
 </head>
 <body>
 
+<nav th:fragment="books-CRUD-header">
+    <h1 th:text="${title}">BookStore</h1>
+    <ul class="nav">
+        <li class="nav-item"><a class="nav-link" href="/books/create">Create Book</a></li>
+        <li class="nav-item"><a class="nav-link" href="/books">Retrieve Books</a></li>
+        <li class="nav-item"><a class="nav-link" href="/books/update">Update Book</a></li>
+        <li class="nav-item"><a class="nav-link" href="/books/delete">Delete Book</a></li>
+    </ul>
+</nav>
+
+<nav th:fragment="users-CRUD-header">
+    <h1 th:text="${title}">Users</h1>
+    <ul class="nav">
+        <li class="nav-item"><a class="nav-link" href="/users/create">Create User</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users">Retrieve Users</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users/update">Update User</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users/delete">Delete User</a></li>
+    </ul>
+</nav>
+
 </body>
 </html>
