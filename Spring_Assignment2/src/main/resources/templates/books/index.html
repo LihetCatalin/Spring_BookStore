@@ -8,6 +8,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Author</th>
             <th>Title</th>
             <th>PublishedDate</th>
@@ -16,6 +17,7 @@
         </tr>
     </thead>
     <tr th:each="book : ${books}">
+        <td th:text="${book.getId()}"></td>
         <td th:text="${book.getAuthor()}"></td>
         <td th:text="${book.getTitle()}"></td>
         <td th:text="${book.getPublishedDate()}"></td>
