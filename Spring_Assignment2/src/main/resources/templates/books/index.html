@@ -5,5 +5,24 @@
 
 <header th:replace="fragments :: books-CRUD-header"></header>
 
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>PublishedDate</th>
+            <th>Price</th>
+            <th>Stock</th>
+        </tr>
+    </thead>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.getAuthor()}"></td>
+        <td th:text="${book.getTitle()}"></td>
+        <td th:text="${book.getPublishedDate()}"></td>
+        <td th:text="${book.getPrice()}"></td>
+        <td th:text="${book.getStock()}"></td>
+    </tr>
+</table>
+
 </body>
 </html>
