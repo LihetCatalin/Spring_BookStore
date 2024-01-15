@@ -3,6 +3,7 @@ package org.LihetCatalin.Spring_Assignment2.controllers;
 import jakarta.validation.Valid;
 import org.LihetCatalin.Spring_Assignment2.data.BookRepository;
 import org.LihetCatalin.Spring_Assignment2.models.Book;
+import org.LihetCatalin.Spring_Assignment2.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("books")
 public class BooksController {
 
-    @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @GetMapping
     public String displayAllBooks(Model model){
         model.addAttribute("title", "Retrieve Books");
-        model.addAttribute("books", bookRepository.findAll());
+        model.addAttribute("books", bookService.findAll());
         return "books/index";
     }
 
@@ -38,7 +38,7 @@ public class BooksController {
             return "books/create";
         }
 
-        bookRepository.save(newBook);
+        bookService.save(newBook);
         return "redirect:/books";
     }
 
@@ -58,20 +58,20 @@ public class BooksController {
         if(errors.hasErrors()){
             model.addAttribute("title", "Update Book");
             return "books/update";
-        }else if(!bookRepository.existsById(idToUpdate.intValue())){
+        }else if(!bookService.existsById(idToUpdate.intValue())){
             model.addAttribute("errMsg"
                     , "Book with this Id does not exist!");
             return "books/update";
         }
 
-        bookRepository.save(newBook);
+        bookService.save(newBook);
         return "redirect:/books";
     }
 
     @GetMapping("delete")
     public String displayDeleteBooksForm(Model model){
         model.addAttribute("title", "Delete Books");
-        model.addAttribute("books", bookRepository.findAll());
+        model.addAttribute("books", bookService.findAll());
         return "books/delete";
     }
 
@@ -79,7 +79,7 @@ public class BooksController {
     public String processDeleteBookForm(@RequestParam(required = false) int[] bookIds){
         if(bookIds != null){
             for (int id:bookIds){
-                bookRepository.deleteById(id);
+                bookService.removeById(id);
             }
         }
         return "redirect:/books";
