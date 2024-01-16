@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Role extends AbstractEntity{
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Role(){}
 

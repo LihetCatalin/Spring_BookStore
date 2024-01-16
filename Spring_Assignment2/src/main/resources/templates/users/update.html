@@ -5,5 +5,45 @@
 
 <header th:replace="fragments :: users-CRUD-header"></header>
 
+<form method="post" action="/users/update">
+    <div class="form-group">
+        <label>UserToUpdate
+            <input type="hidden" th:field="${idToUpdate}">
+            <select th:field="${idToUpdate}">
+                <option th:each="user : ${users}"
+                        th:value="${user.id}"
+                        th:text="${user.username}"
+                ></option>
+            </select>
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Username
+            <input th:field="${user.username}" class="form-control">
+        </label>
+        <p class="error" th:errors="${user.username}"></p>
+    </div>
+    <div class="form-group">
+        <label>Password
+            <input th:field="${user.password}" class="form-control">
+        </label>
+        <p class="error" th:errors="${user.password}"></p>
+    </div>
+    <div class="form-group">
+        <label>RoleToAdd
+            <input type="hidden" th:field="${roleToAdd}">
+            <select th:field="${roleToAdd}">
+                <option th:each="role : ${roles}"
+                        th:value="${role.id}"
+                        th:text="${role.name}"
+                ></option>
+            </select>
+        </label>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Update User" class="btn btn-success">
+    </div>
+</form>
+
 </body>
 </html>

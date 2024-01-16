@@ -1,10 +1,13 @@
 package org.LihetCatalin.Spring_Assignment2.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +21,7 @@ public class User extends AbstractEntity{
     private String password;
 
     @ManyToMany
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
     public User(){}
 

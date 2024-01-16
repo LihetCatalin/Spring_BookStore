@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import org.LihetCatalin.Spring_Assignment2.data.BookRepository;
 import org.LihetCatalin.Spring_Assignment2.models.Book;
 import org.LihetCatalin.Spring_Assignment2.service.BookService;
+import org.LihetCatalin.Spring_Assignment2.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("books")
 public class BooksController {
 
+    @Autowired
     private BookService bookService;
 
     @GetMapping
@@ -46,17 +49,19 @@ public class BooksController {
     public String displayUpdateBookForm(Model model){
         model.addAttribute("title", "Update Book");
         int idToUpdate = 0;
-        model.addAttribute("IdToUpdate", idToUpdate);
+        model.addAttribute("idToUpdate", idToUpdate);
+        model.addAttribute("books", bookService.findAll());
         model.addAttribute(new Book());
         return "books/update";
     }
 
     @PostMapping("update")
-    public String processUpdateBookForm(@RequestParam(required = false) Integer idToUpdate,
+    public String processUpdateBookForm(Integer idToUpdate,
                                         @ModelAttribute @Valid Book newBook,
                                         Errors errors, Model model){
         if(errors.hasErrors()){
             model.addAttribute("title", "Update Book");
+            model.addAttribute("errMsg", "Some error happened!");
             return "books/update";
         }else if(!bookService.existsById(idToUpdate.intValue())){
             model.addAttribute("errMsg"

@@ -1,6 +1,7 @@
 package org.LihetCatalin.Spring_Assignment2.service;
 
 import org.LihetCatalin.Spring_Assignment2.models.Book;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

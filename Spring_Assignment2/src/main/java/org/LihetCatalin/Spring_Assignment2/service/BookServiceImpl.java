@@ -3,10 +3,12 @@ package org.LihetCatalin.Spring_Assignment2.service;
 import org.LihetCatalin.Spring_Assignment2.data.BookRepository;
 import org.LihetCatalin.Spring_Assignment2.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class BookServiceImpl implements BookService{
 
     @Autowired
@@ -34,7 +36,8 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public boolean updateBook(Integer idBook, Book updatedBook) {
-        return false;
+        bookRepository.save(updatedBook);
+        return true;
     }
 
     @Override
