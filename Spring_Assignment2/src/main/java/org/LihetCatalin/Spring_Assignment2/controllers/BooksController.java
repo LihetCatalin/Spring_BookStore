@@ -3,6 +3,7 @@ package org.LihetCatalin.Spring_Assignment2.controllers;
 import jakarta.validation.Valid;
 import org.LihetCatalin.Spring_Assignment2.data.BookRepository;
 import org.LihetCatalin.Spring_Assignment2.models.Book;
+import org.LihetCatalin.Spring_Assignment2.models.auxModels.BookAuxData;
 import org.LihetCatalin.Spring_Assignment2.service.BookService;
 import org.LihetCatalin.Spring_Assignment2.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,28 +49,32 @@ public class BooksController {
     @GetMapping("update")
     public String displayUpdateBookForm(Model model){
         model.addAttribute("title", "Update Book");
-        int idToUpdate = 0;
-        model.addAttribute("idToUpdate", idToUpdate);
+        model.addAttribute("auxData", new BookAuxData());
         model.addAttribute("books", bookService.findAll());
         model.addAttribute(new Book());
         return "books/update";
     }
 
     @PostMapping("update")
-    public String processUpdateBookForm(Integer idToUpdate,
+    public String processUpdateBookForm(@ModelAttribute BookAuxData bookAuxData,
                                         @ModelAttribute @Valid Book newBook,
                                         Errors errors, Model model){
         if(errors.hasErrors()){
             model.addAttribute("title", "Update Book");
             model.addAttribute("errMsg", "Some error happened!");
             return "books/update";
-        }else if(!bookService.existsById(idToUpdate.intValue())){
+        }else if(!bookService.existsById(bookAuxData.getIdToUpdate())){
             model.addAttribute("errMsg"
                     , "Book with this Id does not exist!");
             return "books/update";
         }
-
-        bookService.save(newBook);
+        Book bookToUpdate = bookService.findById(bookAuxData.getIdToUpdate()).get();
+        bookToUpdate.setAuthor(newBook.getAuthor());
+        bookToUpdate.setTitle(newBook.getTitle());
+        bookToUpdate.setPublishedDate(newBook.getPublishedDate());
+        bookToUpdate.setPrice(newBook.getPrice());
+        bookToUpdate.setStock(newBook.getStock());
+        bookService.save(bookToUpdate);
         return "redirect:/books";
     }
 

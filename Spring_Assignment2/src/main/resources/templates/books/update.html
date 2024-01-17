@@ -8,8 +8,7 @@
 <form method="post" action="/books/update">
     <div class="form-group">
         <label>idToUpdate
-            <input type="hidden" th:field="${idToUpdate}">
-            <select th:field="${idToUpdate}">
+            <select th:field="${auxData.idToUpdate}">
                 <option th:each="book : ${books}"
                         th:value="${book.id}"
                         th:text="${book.id}"

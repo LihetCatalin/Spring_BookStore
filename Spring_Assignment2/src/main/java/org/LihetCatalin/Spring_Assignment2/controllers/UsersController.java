@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.LihetCatalin.Spring_Assignment2.models.Role;
 import org.LihetCatalin.Spring_Assignment2.models.User;
 import org.LihetCatalin.Spring_Assignment2.models.UserDTO.UserDTO;
+import org.LihetCatalin.Spring_Assignment2.models.auxModels.UserAuxData;
 import org.LihetCatalin.Spring_Assignment2.service.RoleService;
 import org.LihetCatalin.Spring_Assignment2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,32 +66,33 @@ public class UsersController {
     @GetMapping("update")
     public String displayUpdateUserForm(Model model){
         model.addAttribute("title", "Update User");
-        int idToUpdate = 0;
-        model.addAttribute("idToUpdate", idToUpdate);
         model.addAttribute(new User());
-        int roleToAdd = 0;
-        model.addAttribute("roleToAdd", roleToAdd);
+        model.addAttribute("auxData", new UserAuxData());
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleService.findAll());
         return "users/update";
     }
 
     @PostMapping("update")
-    public String processUpdateUserForm(@RequestParam(required = false) Integer idToUpdate,
+    public String processUpdateUserForm(@ModelAttribute UserAuxData userAuxData,
                                         @ModelAttribute @Valid User user,
-                                        @RequestParam(required = false) Integer roleToAdd,
                                         Errors errors, Model model){
         if(errors.hasErrors()){
             model.addAttribute("title", "Update User");
             return "users/update";
-        }else if(!userService.existsById(idToUpdate.intValue())){
+        }else if(!userService.existsById(userAuxData.getIdToUpdate())){
             model.addAttribute("errMsg"
                     , "Book with this Id does not exist!");
             return "users/update";
         }
+        User userToUpdate = userService.findById(userAuxData.getIdToUpdate()).get();
+        userToUpdate.setUsername(user.getUsername());
+        userToUpdate.setPassword(user.getPassword());
         //+ add new role if not exists
-        user.getRoles().add(roleService.findById(roleToAdd.intValue()));
-        userService.saveUser(user);
+        Role roleToAdd = roleService.findById(userAuxData.getIdRole());
+        if(!userToUpdate.getRoles().contains(roleToAdd))
+            userToUpdate.getRoles().add(roleToAdd);
+        userService.saveUser(userToUpdate);
         return "redirect:/users";
     }
 

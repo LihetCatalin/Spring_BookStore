@@ -8,8 +8,7 @@
 <form method="post" action="/users/update">
     <div class="form-group">
         <label>UserToUpdate
-            <input type="hidden" th:field="${idToUpdate}">
-            <select th:field="${idToUpdate}">
+            <select th:field="${auxData.idToUpdate}">
                 <option th:each="user : ${users}"
                         th:value="${user.id}"
                         th:text="${user.username}"
@@ -31,8 +30,7 @@
     </div>
     <div class="form-group">
         <label>RoleToAdd
-            <input type="hidden" th:field="${roleToAdd}">
-            <select th:field="${roleToAdd}">
+            <select th:field="${auxData.idRole}">
                 <option th:each="role : ${roles}"
                         th:value="${role.id}"
                         th:text="${role.name}"
